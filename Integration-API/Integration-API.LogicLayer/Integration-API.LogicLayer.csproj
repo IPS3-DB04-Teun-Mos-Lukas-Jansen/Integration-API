@@ -1,0 +1,15 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <RootNamespace>Integration_API.LogicLayer</RootNamespace>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Integration-API.DataLayer\Integration-API.DataLayer.csproj" />
+    <ProjectReference Include="..\Integration-API.Models\Integration-API.Models.csproj" />
+  </ItemGroup>
+
+</Project>
