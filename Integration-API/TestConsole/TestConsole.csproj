@@ -1,0 +1,17 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Integration-API.DataLayer\Integration-API.DataLayer.csproj" />
+    <ProjectReference Include="..\Integration-API.LogicLayer\Integration-API.LogicLayer.csproj" />
+    <ProjectReference Include="..\Integration-API.Models\Integration-API.Models.csproj" />
+    <ProjectReference Include="..\Integration-API\Integration-API.csproj" />
+  </ItemGroup>
+
+</Project>
