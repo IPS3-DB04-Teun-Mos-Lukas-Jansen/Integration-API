@@ -17,6 +17,7 @@ namespace Integration_API.DataLayer.External
         {
             ApiKey = apiKey;
         }
+        
 
         public async Task<string> GetCurrentLocalWeather(OpenWeatherMapCredentials credentials)
         {
@@ -24,7 +25,7 @@ namespace Integration_API.DataLayer.External
             Regex rgx = new Regex("[?&=]");
             city = rgx.Replace(city, "");
 
-            string urlParams = "weather?q= "+ city + "&appid=" + ApiKey;
+            string urlParams = $"weather?q={city}&appid={ApiKey}";
             string url = BaseUrl + urlParams;
 
             using (HttpClient client = new HttpClient())
