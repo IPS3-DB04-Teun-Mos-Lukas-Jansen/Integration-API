@@ -9,7 +9,7 @@ using Integration_API.Models.OpenWeatherMap;
 
 namespace Integration_API.DataLayer.External
 {
-    public class OpenWeatherMapCalls
+    public class OpenWeatherMapCalls : IOpenWeatherMapCalls
     {
         private readonly string ApiKey;
         private readonly string BaseUrl = "https://api.openweathermap.org/data/2.5/";
@@ -17,7 +17,7 @@ namespace Integration_API.DataLayer.External
         {
             ApiKey = apiKey;
         }
-        
+
 
         public async Task<string> GetCurrentLocalWeather(OpenWeatherMapCredentials credentials)
         {
@@ -30,7 +30,7 @@ namespace Integration_API.DataLayer.External
 
             using (HttpClient client = new HttpClient())
             {
-                var response =  await client.GetStringAsync(url);
+                var response = await client.GetStringAsync(url);
                 return response;
             }
 
