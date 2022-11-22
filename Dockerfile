@@ -7,10 +7,10 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build
 WORKDIR /src
-COPY ["Integration-API/Integration-API.csproj", "Integration-API/"]
+COPY ["Integration-API/Integration-API/Integration-API.csproj", "Integration-API/"]
 RUN dotnet restore "Integration-API/Integration-API.csproj"
 COPY . .
-WORKDIR "/src/Integration-API"
+WORKDIR "/src/Integration-API/Integration-API"
 RUN dotnet build "Integration-API.csproj" -c Release -o /app/build
 
 FROM build AS publish
