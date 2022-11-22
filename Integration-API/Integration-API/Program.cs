@@ -19,6 +19,17 @@ CredentialsDataAcces credentialsDataAcces = new CredentialsDataAcces(mongoDbConn
 
 builder.Services.AddSingleton<IOpenWeatherMapService>(new OpenWeatherMapService(openWeatherMapCalls, credentialsDataAcces));
 
+var AllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: AllowSpecificOrigins,
+                      builder =>
+                      {
+                          builder.WithOrigins("http://localhost:3000");
+                          builder.WithOrigins("http://localhost");
+                      });
+});
 
 var app = builder.Build();
 
