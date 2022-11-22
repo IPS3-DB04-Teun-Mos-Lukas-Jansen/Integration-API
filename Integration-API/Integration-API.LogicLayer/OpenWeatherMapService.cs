@@ -4,32 +4,64 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Integration_API.DataLayer.External;
+using Integration_API.DataLayer.Internal;
 using Integration_API.Models;
 using Integration_API.Models.OpenWeatherMap;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
 
 namespace Integration_API.LogicLayer
 {
-    public class OpenWeatherMapService
+    public class OpenWeatherMapService : IOpenWeatherMapService
     {
-        private readonly OpenWeatherMapCalls mapCalls;
+        private readonly IOpenWeatherMapCalls _mapCalls;
+        private readonly ICredentialsDataAcces _credentials;
 
-        public OpenWeatherMapService(OpenWeatherMapCalls mapCalls)
+        private const string _integrationName = "openWeatherMap";
+
+        public OpenWeatherMapService(OpenWeatherMapCalls mapCalls, CredentialsDataAcces credentials)
         {
-            this.mapCalls = mapCalls;
+            this._mapCalls = mapCalls;
+            this._credentials = credentials;
         }
 
 
         public async Task<OpenWeatherMapResponse> GetLocalWeatherForecast(string UserId)
         {
-
             //Get credentials with userId
-            OpenWeatherMapCredentials creds = new OpenWeatherMapCredentials(true, "Eindhoven"); //temporary
+            BsonValue credentialsResponse = await _credentials.GetCredentials(UserId, _integrationName);
+            OpenWeatherMapCredentials creds = BsonSerializer.Deserialize<OpenWeatherMapCredentials>(credentialsResponse.AsBsonDocument);
+            //OpenWeatherMapCredentials creds = new OpenWeatherMapCredentials(true, "Eindhoven"); //temporary
 
-            string rawResponse = await mapCalls.GetCurrentLocalWeather(creds);
+            string rawResponse = await _mapCalls.GetCurrentLocalWeather(creds);
+            var response = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(rawResponse);
 
-            var response = 
+            double tempInC = response["main"]["temp"] - 272.15;
+            int humidity = response["main"]["humidity"];
+            double windSpeed = response["wind"]["speed"];
+            int windDirection = response["wind"]["deg"];
+            string weatherDescripton = response["weather"][0]["description"];
+            string imgName = response["weather"][0]["icon"];
+            string imgUrl = $"https://openweathermap.org/img/wn/{response["weather"][0]["icon"]}@4x.png";
+
+            OpenWeatherMapResponse filteredWeatherData =
+                new OpenWeatherMapResponse(
+                    tempInC,
+                    humidity,
+                    windSpeed,
+                    windDirection,
+                    weatherDescripton,
+                    imgName,
+                    imgUrl
+                    );
+
+            return filteredWeatherData;
+        }
 
 
+        public async Task SetLocalWeatherForecastCredentials(string UserId, OpenWeatherMapCredentials credentials)
+        {
+            await _credentials.SetCredentials(UserId, _integrationName, credentials.ToBsonDocument());
         }
     }
 }

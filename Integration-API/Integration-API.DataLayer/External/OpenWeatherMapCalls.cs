@@ -9,7 +9,7 @@ using Integration_API.Models.OpenWeatherMap;
 
 namespace Integration_API.DataLayer.External
 {
-    public class OpenWeatherMapCalls
+    public class OpenWeatherMapCalls : IOpenWeatherMapCalls
     {
         private readonly string ApiKey;
         private readonly string BaseUrl = "https://api.openweathermap.org/data/2.5/";
@@ -18,18 +18,19 @@ namespace Integration_API.DataLayer.External
             ApiKey = apiKey;
         }
 
+
         public async Task<string> GetCurrentLocalWeather(OpenWeatherMapCredentials credentials)
         {
             string city = credentials.cityName;
             Regex rgx = new Regex("[?&=]");
             city = rgx.Replace(city, "");
 
-            string urlParams = "weather?q= "+ city + "&appid=" + ApiKey;
+            string urlParams = $"weather?q={city}&appid={ApiKey}";
             string url = BaseUrl + urlParams;
 
             using (HttpClient client = new HttpClient())
             {
-                var response =  await client.GetStringAsync(url);
+                var response = await client.GetStringAsync(url);
                 return response;
             }
 
