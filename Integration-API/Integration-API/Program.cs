@@ -11,6 +11,7 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
 string mongoDbConnString = Environment.GetEnvironmentVariable("INTEGRATION_DB_URL");
 string openWeatherMapApiKey = Environment.GetEnvironmentVariable("OPENWEATHERMAP_APIKEY");
 
@@ -31,16 +32,16 @@ builder.Services.AddCors(options =>
 });
 
 var app = builder.Build();
+app.UseCors(AllowSpecificOrigins);
 
 // Configure the HTTP request pipeline.
 //if (app.Environment.IsDevelopment())
 //{
-    app.UseSwagger();
+app.UseSwagger();
     app.UseSwaggerUI();
 //}
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 
 app.MapControllers();
