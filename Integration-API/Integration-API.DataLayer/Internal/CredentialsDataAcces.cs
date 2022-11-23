@@ -1,10 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using MongoDB.Bson;
 using MongoDB.Driver;
-using MongoDB.Bson;
 
 namespace Integration_API.DataLayer.Internal
 {
@@ -26,8 +21,38 @@ namespace Integration_API.DataLayer.Internal
         {
             var filter = Builders<BsonDocument>.Filter.Eq("userId", userId);
             BsonDocument result = await _credentialsCollection.Find(filter).FirstOrDefaultAsync();
-            return result["integrations"][integration];
+            if (result == null)
+            {
+                return null;
+            }
+            else
+            {
+                return result["integrations"][integration];
+            }
         }
+
+        public async Task<BsonValue> GetAllCredentials(string userId)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("userId", userId);
+            BsonDocument result = await _credentialsCollection.Find(filter).FirstOrDefaultAsync();
+
+            if (result != null)
+            {
+                return result["integrations"];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public async Task<int> RemoveIntegrationCredentials(string userId, string integration)
+        {
+            var filter = Builders<BsonDocument>.Filter.Eq("userId", userId);
+            var rows = await _credentialsCollection.UpdateOneAsync(filter, new BsonDocument("$unset", new BsonDocument("integrations." + integration,1)));
+            return (int)rows.ModifiedCount;
+        }
+
 
         public async Task SetCredentials(string userId, string integration, BsonDocument credentials)
         {
@@ -35,6 +60,8 @@ namespace Integration_API.DataLayer.Internal
             var options = new UpdateOptions { IsUpsert = true };
             await _credentialsCollection.UpdateOneAsync(filter, new BsonDocument("$set", new BsonDocument("integrations." + integration, credentials)), options);
         }
+
+
 
 
 

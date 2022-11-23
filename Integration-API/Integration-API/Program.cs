@@ -19,6 +19,7 @@ OpenWeatherMapCalls openWeatherMapCalls = new OpenWeatherMapCalls(openWeatherMap
 CredentialsDataAcces credentialsDataAcces = new CredentialsDataAcces(mongoDbConnString);
 
 builder.Services.AddSingleton<IOpenWeatherMapService>(new OpenWeatherMapService(openWeatherMapCalls, credentialsDataAcces));
+builder.Services.AddSingleton<IIntegrationsHelper>(new IntegrationsHelper(credentialsDataAcces));
 
 var AllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -28,6 +29,8 @@ builder.Services.AddCors(options =>
                       builder =>
                       {
                           builder.WithOrigins("http://localhost:3000");
+                          builder.AllowAnyHeader();
+                          builder.AllowAnyMethod();
                       });
 });
 
