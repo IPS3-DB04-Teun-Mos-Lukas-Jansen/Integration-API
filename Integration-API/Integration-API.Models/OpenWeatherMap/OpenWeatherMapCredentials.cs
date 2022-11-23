@@ -9,16 +9,16 @@ namespace Integration_API.Models.OpenWeatherMap
 {
     public class OpenWeatherMapCredentials
     {
-        [BsonElement("isActive")]
-        public bool isActive { get; set; }
+        [BsonElement("Active")]
+        public bool Active { get; set; }
+        
+        [BsonElement("City")]
+        public string City { get; set; }
 
-        [BsonElement("cityName")]
-        public string cityName { get; set; }
-
-        public OpenWeatherMapCredentials(bool isActive, string cityName)
+        public OpenWeatherMapCredentials(bool Active, string City)
         {
-            this.isActive = isActive;
-            this.cityName = cityName;
+            this.Active = Active;
+            this.City = City;
         }
     }
 }

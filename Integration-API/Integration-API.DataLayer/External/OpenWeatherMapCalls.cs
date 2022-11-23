@@ -21,7 +21,7 @@ namespace Integration_API.DataLayer.External
 
         public async Task<string> GetCurrentLocalWeather(OpenWeatherMapCredentials credentials)
         {
-            string city = credentials.cityName;
+            string city = credentials.City;
             Regex rgx = new Regex("[?&=]");
             city = rgx.Replace(city, "");
 
