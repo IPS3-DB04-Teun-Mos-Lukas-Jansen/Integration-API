@@ -15,8 +15,8 @@ namespace Integration_API.Models.OpenWeatherMap
         public string weatherDescription { get; set; }
         public string imgName { get; set; }
         public string imgUrl { get; set; }
-
-        public OpenWeatherMapResponse(double tempInCelcius, int humidity, double windSpeed, int windDirection, string weatherDescription, string imgName, string imgUrl)
+        public string location { get; set; }
+        public OpenWeatherMapResponse(double tempInCelcius, int humidity, double windSpeed, int windDirection, string weatherDescription, string imgName, string imgUrl, string location)
         {
             this.tempInCelcius = tempInCelcius;
             this.humidity = humidity;
@@ -25,6 +25,7 @@ namespace Integration_API.Models.OpenWeatherMap
             this.weatherDescription = weatherDescription;
             this.imgName = imgName;
             this.imgUrl = imgUrl;
+            this.location = location;
         }
     }
 }
