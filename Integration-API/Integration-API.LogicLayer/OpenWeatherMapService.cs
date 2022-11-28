@@ -43,6 +43,7 @@ namespace Integration_API.LogicLayer
             string weatherDescripton = response["weather"][0]["description"];
             string imgName = response["weather"][0]["icon"];
             string imgUrl = $"https://openweathermap.org/img/wn/{response["weather"][0]["icon"]}@4x.png";
+            string location = response["name"];
 
             OpenWeatherMapResponse filteredWeatherData =
                 new OpenWeatherMapResponse(
@@ -52,7 +53,8 @@ namespace Integration_API.LogicLayer
                     windDirection,
                     weatherDescripton,
                     imgName,
-                    imgUrl
+                    imgUrl,
+                    location
                     );
 
             return filteredWeatherData;
