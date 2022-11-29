@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Json;
-using System.Text;
+﻿using Integration_API.Models.OpenWeatherMap;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using Integration_API.Models.OpenWeatherMap;
 
 namespace Integration_API.DataLayer.External
 {
@@ -30,8 +24,12 @@ namespace Integration_API.DataLayer.External
 
             using (HttpClient client = new HttpClient())
             {
-                var response = await client.GetStringAsync(url);
-                return response;
+                    var response = await client.GetStringAsync(url);
+
+
+
+                    return response;
+                
             }
 
         }

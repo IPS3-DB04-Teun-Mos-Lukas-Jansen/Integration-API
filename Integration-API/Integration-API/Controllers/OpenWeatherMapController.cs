@@ -1,6 +1,5 @@
-﻿using Integration_API.Models.OpenWeatherMap;
-using Integration_API.LogicLayer;
-using Microsoft.AspNetCore.Http;
+﻿using Integration_API.LogicLayer;
+using Integration_API.Models.OpenWeatherMap;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Integration_API.Controllers
@@ -31,10 +30,31 @@ namespace Integration_API.Controllers
             {
                 return BadRequest("invalid token");
             }
-            catch (System.ArgumentNullException)
+            catch (ArgumentNullException)
             {
                 return NotFound("bazinga");
             }
+            catch (HttpRequestException ex)
+            {
+                if (ex.StatusCode == System.Net.HttpStatusCode.NotFound)
+                {
+                    return NotFound("city not found");
+                }
+                else if (ex.StatusCode == System.Net.HttpStatusCode.Forbidden)
+                {
+                    return StatusCode(406, "integration disabled");
+                }
+                else if (ex.StatusCode == System.Net.HttpStatusCode.BadRequest)
+                {
+                    return BadRequest("No config");
+                }
+                else
+                {
+                    return StatusCode(500, "Whoopsie something went wrong https://http.cat/500");
+                }
+            }
+            
+
         }
 
         [HttpPost("/openweathermap/{id_token}")]

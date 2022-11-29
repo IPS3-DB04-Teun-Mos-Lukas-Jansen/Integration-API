@@ -31,7 +31,12 @@ namespace Integration_API.LogicLayer
             //Get credentials with userId
             BsonValue credentialsResponse = await _credentials.GetCredentials(UserId, _integrationName);
             OpenWeatherMapCredentials creds = BsonSerializer.Deserialize<OpenWeatherMapCredentials>(credentialsResponse.AsBsonDocument);
-            //OpenWeatherMapCredentials creds = new OpenWeatherMapCredentials(true, "Eindhoven"); //temporary
+
+            if (creds.Active == false)
+            {
+                throw new HttpRequestException("integration is disabled", new Exception(), System.Net.HttpStatusCode.Forbidden);
+            }
+
 
             string rawResponse = await _mapCalls.GetCurrentLocalWeather(creds);
             var response = Newtonsoft.Json.JsonConvert.DeserializeObject<dynamic>(rawResponse);
