@@ -36,7 +36,7 @@ namespace Integration_API.LogicLayer
         }
 
         private readonly ICredentialsDataAcces _credentialsDataAcces;
-        public IntegrationsHelper(CredentialsDataAcces _credentialsDataAcces)
+        public IntegrationsHelper(ICredentialsDataAcces _credentialsDataAcces)
         {
             this._credentialsDataAcces = _credentialsDataAcces;
         }

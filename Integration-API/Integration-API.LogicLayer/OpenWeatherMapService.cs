@@ -18,8 +18,8 @@ namespace Integration_API.LogicLayer
         private readonly ICredentialsDataAcces _credentials;
 
         private const string _integrationName = "openWeatherMap";
-
-        public OpenWeatherMapService(OpenWeatherMapCalls mapCalls, CredentialsDataAcces credentials)
+        
+        public OpenWeatherMapService(IOpenWeatherMapCalls mapCalls, ICredentialsDataAcces credentials)
         {
             this._mapCalls = mapCalls;
             this._credentials = credentials;

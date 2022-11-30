@@ -1,4 +1,5 @@
-﻿using Integration_API.LogicLayer;
+﻿using Integration_API.Auth;
+using Integration_API.LogicLayer;
 using Integration_API.Models.OpenWeatherMap;
 using Microsoft.AspNetCore.Mvc;
 
@@ -10,10 +11,12 @@ namespace Integration_API.Controllers
     {
         private readonly ILogger<OpenWeatherMapController> _logger;
         private readonly IOpenWeatherMapService _openWeatherMapService;
-        public OpenWeatherMapController(ILogger<OpenWeatherMapController> logger, IOpenWeatherMapService openWeatherMapService)
+        private readonly IAuthorisation _authorisation;
+        public OpenWeatherMapController(ILogger<OpenWeatherMapController> logger, IOpenWeatherMapService openWeatherMapService, IAuthorisation authorisation)
         {
             _logger = logger;
             _openWeatherMapService = openWeatherMapService;
+            _authorisation = authorisation;
         }
 
         [HttpGet("/openweathermap/{id_token}")]
@@ -21,7 +24,7 @@ namespace Integration_API.Controllers
         {
             try
             {
-                string userId = await Authorisation.ValidateIdToken(id_token);
+                string userId = await _authorisation.ValidateIdToken(id_token);
                 OpenWeatherMapResponse result = await _openWeatherMapService.GetLocalWeatherForecast(userId);
                 string response = Newtonsoft.Json.JsonConvert.SerializeObject(result);
                 return Ok(response);
@@ -62,7 +65,7 @@ namespace Integration_API.Controllers
         {
             try
             {
-                string userId = await Authorisation.ValidateIdToken(id_token);
+                string userId = await _authorisation.ValidateIdToken(id_token);
                 await _openWeatherMapService.SetLocalWeatherForecastCredentials(userId, credentials);
                 return Ok("credentials set!");
             }

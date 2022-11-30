@@ -3,6 +3,8 @@
 using Integration_API.LogicLayer;
 using Integration_API.DataLayer.Internal;
 using Integration_API.DataLayer.External;
+using MongoDB.Driver;
+using Integration_API.Auth;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -15,11 +17,25 @@ builder.Services.AddSwaggerGen();
 string mongoDbConnString = Environment.GetEnvironmentVariable("INTEGRATION_DB_URL");
 string openWeatherMapApiKey = Environment.GetEnvironmentVariable("OPENWEATHERMAP_APIKEY");
 
+if (mongoDbConnString == null)
+{
+    mongoDbConnString = "mongodb://localhost:27016";
+}
+
+if (openWeatherMapApiKey == null)
+{
+    openWeatherMapApiKey = "bazinga";
+}
+
+
+
 OpenWeatherMapCalls openWeatherMapCalls = new OpenWeatherMapCalls(openWeatherMapApiKey);
-CredentialsDataAcces credentialsDataAcces = new CredentialsDataAcces(mongoDbConnString);
+CredentialsDataAcces credentialsDataAcces = new CredentialsDataAcces(new MongoClient(mongoDbConnString));
 
 builder.Services.AddSingleton<IOpenWeatherMapService>(new OpenWeatherMapService(openWeatherMapCalls, credentialsDataAcces));
 builder.Services.AddSingleton<IIntegrationsHelper>(new IntegrationsHelper(credentialsDataAcces));
+
+builder.Services.AddSingleton<IAuthorisation>(new Authorisation());
 
 var AllowSpecificOrigins = "_myAllowSpecificOrigins";
 
@@ -50,3 +66,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program { }
+

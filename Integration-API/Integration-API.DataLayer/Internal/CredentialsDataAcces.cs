@@ -9,9 +9,9 @@ namespace Integration_API.DataLayer.Internal
         private readonly IMongoDatabase _database;
         private readonly IMongoCollection<BsonDocument> _credentialsCollection;
 
-        public CredentialsDataAcces(string dbUrl)
+        public CredentialsDataAcces(MongoClient db)
         {
-            _client = new MongoClient(dbUrl);
+            _client = db;
             _database = _client.GetDatabase("credentials");
             _credentialsCollection = _database.GetCollection<BsonDocument>("credentials-collection");
         }
