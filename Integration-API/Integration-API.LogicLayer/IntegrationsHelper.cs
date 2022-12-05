@@ -22,7 +22,7 @@ namespace Integration_API.LogicLayer
             integrations.Add(new IntegrationInfo(
                 "openWeatherMap",
                 "open weather map",
-                "http://openweathermap.org/img/wn/02d@2x.png",
+                "https://openweathermap.org/img/wn/02d@2x.png",
                 openWeatherMapProps,
                 new List<string>() { "weather", "forecast" },
                 1,
@@ -36,7 +36,7 @@ namespace Integration_API.LogicLayer
         }
 
         private readonly ICredentialsDataAcces _credentialsDataAcces;
-        public IntegrationsHelper(CredentialsDataAcces _credentialsDataAcces)
+        public IntegrationsHelper(ICredentialsDataAcces _credentialsDataAcces)
         {
             this._credentialsDataAcces = _credentialsDataAcces;
         }

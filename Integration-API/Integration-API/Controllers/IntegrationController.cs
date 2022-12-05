@@ -2,6 +2,7 @@
 using Integration_API.LogicLayer;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Integration_API.Auth;
 
 namespace Integration_API.Controllers
 {
@@ -12,10 +13,14 @@ namespace Integration_API.Controllers
         private readonly ILogger<IntegrationController> _logger;
 
         private readonly IIntegrationsHelper _integrationsHelper;
-        public IntegrationController(ILogger<IntegrationController> logger, IIntegrationsHelper integrationsHelper)
+
+        private readonly IAuthorisation _authorisation;
+
+        public IntegrationController(ILogger<IntegrationController> logger, IIntegrationsHelper integrationsHelper, IAuthorisation authorisation)
         {
             _logger = logger;
             _integrationsHelper = integrationsHelper;
+            _authorisation = authorisation;
         }
 
 
@@ -30,7 +35,7 @@ namespace Integration_API.Controllers
         {
             try
             {
-                string userId = await Authorisation.ValidateIdToken(id_token);
+                string userId = await _authorisation.ValidateIdToken(id_token);
                 string result = await _integrationsHelper.GetIntegrationCredentials(userId);
                 return Ok(result);
             }
@@ -53,7 +58,7 @@ namespace Integration_API.Controllers
         {
             try
             {
-                string userId = await Authorisation.ValidateIdToken(id_token);
+                string userId = await _authorisation.ValidateIdToken(id_token);
                 int rows = await _integrationsHelper.RemoveIntegrationCredentials(userId, integration);
                 
                 if (rows == 0)
