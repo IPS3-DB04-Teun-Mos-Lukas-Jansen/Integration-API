@@ -1,11 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Integration_API.DataLayer.External;
+﻿using Integration_API.DataLayer.External;
 using Integration_API.DataLayer.Internal;
-using Integration_API.Models;
 using Integration_API.Models.OpenWeatherMap;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
@@ -18,7 +12,7 @@ namespace Integration_API.LogicLayer
         private readonly ICredentialsDataAcces _credentials;
 
         private const string _integrationName = "openWeatherMap";
-        
+
         public OpenWeatherMapService(IOpenWeatherMapCalls mapCalls, ICredentialsDataAcces credentials)
         {
             this._mapCalls = mapCalls;
@@ -29,7 +23,12 @@ namespace Integration_API.LogicLayer
         public async Task<OpenWeatherMapResponse> GetLocalWeatherForecast(string UserId)
         {
             //Get credentials with userId
+
             BsonValue credentialsResponse = await _credentials.GetCredentials(UserId, _integrationName);
+            if (credentialsResponse == null)
+            {
+                throw new HttpRequestException("no credentials specified", new Exception(), System.Net.HttpStatusCode.Unauthorized);
+            }
             OpenWeatherMapCredentials creds = BsonSerializer.Deserialize<OpenWeatherMapCredentials>(credentialsResponse.AsBsonDocument);
 
             if (creds.Active == false)

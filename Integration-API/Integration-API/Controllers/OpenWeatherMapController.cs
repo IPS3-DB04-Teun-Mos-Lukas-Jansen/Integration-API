@@ -53,7 +53,17 @@ namespace Integration_API.Controllers
                 }
                 else
                 {
-                    return StatusCode(500, "Whoopsie something went wrong https://http.cat/500");
+                    int? code = (int?)ex.StatusCode;
+
+                    if (code.HasValue)
+                    {
+                        return StatusCode((int)code, ex.Message);
+                    }
+                    else
+                    {
+                        return StatusCode(500, "Whoopsie something went wrong :(");
+                    }
+
                 }
             }
             

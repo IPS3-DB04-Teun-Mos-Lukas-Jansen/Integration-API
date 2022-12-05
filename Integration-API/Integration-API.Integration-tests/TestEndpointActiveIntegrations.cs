@@ -27,7 +27,7 @@ namespace Integration_API.Integration_tests
                 }
             };
 
-        public void MockAuth(string id_token_dummy, string user_id_dummy)
+        private void MockAuth(string id_token_dummy, string user_id_dummy)
         {
             //mock the authorisation
             var mockAuthorisation = new Mock<IAuthorisation>();
@@ -35,7 +35,7 @@ namespace Integration_API.Integration_tests
             _factory.MockAuthorisation(mockAuthorisation.Object);
         }
 
-        public void MockAuth()
+        private void MockAuth()
         {
             string id_token_dummy = "1234";
             string user_id_dummy = "4321";
@@ -47,8 +47,9 @@ namespace Integration_API.Integration_tests
         [Fact]
         public async Task GetAllIntegrations_returnsSuccess()
         {
-            _factory = new CustomWebApplicationFactory<Program>();
             //arrange
+            _factory = new CustomWebApplicationFactory<Program>();
+
             var mockCredentialsDataAcces = new Mock<ICredentialsDataAcces>();
             _factory.MockCredentialsDataAcces(mockCredentialsDataAcces.Object);
             MockAuth();
@@ -77,13 +78,17 @@ namespace Integration_API.Integration_tests
             MockAuth(id_token_dummy, user_id_dummy);
 
             var mockCredentialsDataAcces = new Mock<ICredentialsDataAcces>();
-            _factory.MockCredentialsDataAcces(mockCredentialsDataAcces.Object);
             mockCredentialsDataAcces.Setup(x => x.GetAllCredentials(user_id_dummy)).ReturnsAsync(_credentials_dummy);
+
+            _factory.MockCredentialsDataAcces(mockCredentialsDataAcces.Object);
 
             var client = _factory.CreateClient(new WebApplicationFactoryClientOptions
             {
                 AllowAutoRedirect = false
             });
+
+                   
+
 
             //act
             var response = await client.GetAsync($"/credentials/{id_token_dummy}");
