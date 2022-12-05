@@ -6,11 +6,9 @@ using Newtonsoft.Json.Linq;
 
 namespace Integration_API.Integration_tests
 {
-    public class UnitTest1 : IClassFixture<CustomWebApplicationFactory<Program>>
+    public class TestEndpointActiveIntegrations : IClassFixture<CustomWebApplicationFactory<Program>>
     {
-        private readonly CustomWebApplicationFactory<Program> _factory;
-
-
+        private CustomWebApplicationFactory<Program> _factory;
         private readonly BsonValue _credentials_dummy = new BsonDocument
             {
                 { "integration1",
@@ -28,13 +26,6 @@ namespace Integration_API.Integration_tests
                     }
                 }
             };
-
-        public UnitTest1(CustomWebApplicationFactory<Program> factory)
-        {
-            _factory = factory;
-
-
-        }
 
         public void MockAuth(string id_token_dummy, string user_id_dummy)
         {
@@ -56,6 +47,7 @@ namespace Integration_API.Integration_tests
         [Fact]
         public async Task GetAllIntegrations_returnsSuccess()
         {
+            _factory = new CustomWebApplicationFactory<Program>();
             //arrange
             var mockCredentialsDataAcces = new Mock<ICredentialsDataAcces>();
             _factory.MockCredentialsDataAcces(mockCredentialsDataAcces.Object);
@@ -77,6 +69,8 @@ namespace Integration_API.Integration_tests
         [Fact]
         public async Task GetUserCredentials_returnsSuccess()
         {
+
+            _factory = new CustomWebApplicationFactory<Program>();
             //arrange
             string id_token_dummy = "1234";
             string user_id_dummy = "4321";
