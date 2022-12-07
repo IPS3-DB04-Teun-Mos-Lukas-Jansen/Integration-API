@@ -11,9 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration-API.DataLayer",
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration-API.LogicLayer", "Integration-API.LogicLayer\Integration-API.LogicLayer.csproj", "{F18E3F2B-CCD5-437D-AB6F-C9083A0ECD26}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TestConsole", "TestConsole\TestConsole.csproj", "{00A2ECC3-8D82-40A1-985D-A782C2D52677}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Integration-API.Integration-tests", "Integration-API.Integration-tests\Integration-API.Integration-tests.csproj", "{55F8561F-844B-4DBC-98D1-6E72488790E1}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Integration-API.Integration-tests", "Integration-API.Integration-tests\Integration-API.Integration-tests.csproj", "{55F8561F-844B-4DBC-98D1-6E72488790E1}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -37,10 +35,6 @@ Global
 		{F18E3F2B-CCD5-437D-AB6F-C9083A0ECD26}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F18E3F2B-CCD5-437D-AB6F-C9083A0ECD26}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F18E3F2B-CCD5-437D-AB6F-C9083A0ECD26}.Release|Any CPU.Build.0 = Release|Any CPU
-		{00A2ECC3-8D82-40A1-985D-A782C2D52677}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{00A2ECC3-8D82-40A1-985D-A782C2D52677}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{00A2ECC3-8D82-40A1-985D-A782C2D52677}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{00A2ECC3-8D82-40A1-985D-A782C2D52677}.Release|Any CPU.Build.0 = Release|Any CPU
 		{55F8561F-844B-4DBC-98D1-6E72488790E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{55F8561F-844B-4DBC-98D1-6E72488790E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55F8561F-844B-4DBC-98D1-6E72488790E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
