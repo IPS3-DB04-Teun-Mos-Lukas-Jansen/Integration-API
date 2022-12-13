@@ -15,18 +15,11 @@ namespace Integration_API.DataLayer.External
 
         public async Task<SyndicationFeed> GetNewsFeed()
         {
-            //using (HttpClient client = new HttpClient())
-            //{
-            //    var response = await client.GetStringAsync(_bronFontysUrl);
-            //    return response;
-            //}
-            //try { }
             using (var reader = XmlReader.Create(_bronFontysUrl))
             {
                 SyndicationFeed response = SyndicationFeed.Load(reader);
                 return response;
             }
-            //catch { } // TODO: Deal with unavailable resource.
 
         }
     }
