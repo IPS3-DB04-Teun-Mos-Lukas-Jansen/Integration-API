@@ -9,6 +9,7 @@
 
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.2-beta3" />
+    <PackageReference Include="System.ServiceModel.Syndication" Version="7.0.0" />
   </ItemGroup>
 
   <ItemGroup>
