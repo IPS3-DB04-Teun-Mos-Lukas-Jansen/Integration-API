@@ -18,6 +18,11 @@ namespace Integration_API.LogicLayer
                 new Property("City", "string"),
             };
 
+            List<Property> bronFontysProps = new List<Property>()
+            {
+                new Property("Active", "boolean"),
+            };
+
 
             integrations.Add(new IntegrationInfo(
                 "openWeatherMap",
@@ -28,6 +33,16 @@ namespace Integration_API.LogicLayer
                 1,
                 "Weather data in a fast and easy-to-use way"
                 ));
+
+            integrations.Add(new IntegrationInfo(
+               "bronFontys",
+               "BRON (Fontys Hogescholen)",
+               "https://presspage-production-content.s3.amazonaws.com/templates/395/1980/brondiap_rgb.png",
+               bronFontysProps,
+               new List<string>() { "news", "blogs" },
+               1,
+               "BRON is het onafhankelijke nieuwsmedium van en voor Fontys Hogescholen"
+               ));
 
 
             string value = JsonConvert.SerializeObject(integrations);
