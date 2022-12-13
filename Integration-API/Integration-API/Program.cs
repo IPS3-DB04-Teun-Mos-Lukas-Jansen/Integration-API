@@ -30,12 +30,13 @@ if (openWeatherMapApiKey == null)
 
 
 OpenWeatherMapCalls openWeatherMapCalls = new OpenWeatherMapCalls(openWeatherMapApiKey);
+BronFontysCalls bronFontysCalls = new BronFontysCalls();
 CredentialsDataAcces credentialsDataAcces = new CredentialsDataAcces(new MongoClient(mongoDbConnString));
 
 builder.Services.AddSingleton<IOpenWeatherMapService>(new OpenWeatherMapService(openWeatherMapCalls, credentialsDataAcces));
 builder.Services.AddSingleton<IIntegrationsHelper>(new IntegrationsHelper(credentialsDataAcces));
-
 builder.Services.AddSingleton<IAuthorisation>(new Authorisation());
+builder.Services.AddSingleton<IBronFontysService>(new BronFontysService(bronFontysCalls,credentialsDataAcces));
 
 var AllowSpecificOrigins = "_myAllowSpecificOrigins";
 
