@@ -10,6 +10,7 @@ using System.ServiceModel.Syndication;
 using System.Xml.Linq;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization;
+using Integration_API.LogicLayer.SmallServices;
 
 namespace Integration_API.LogicLayer
 {
@@ -20,7 +21,7 @@ namespace Integration_API.LogicLayer
         private readonly string _integrationName = "bronFontys";
 
         private List<BronFontysResponse> cachedFeedItems;
-        private DateTime lastCashTime;
+        private DateTime lastCacheTime;
 
         public BronFontysService(IBronFontysCalls BronFontysCalls, ICredentialsDataAcces credentials)
         {
@@ -44,12 +45,10 @@ namespace Integration_API.LogicLayer
                 throw new HttpRequestException("integration is disabled", new Exception(), System.Net.HttpStatusCode.Forbidden);
             }
             
-
-            if (DateTime.Now - lastCashTime > TimeSpan.FromMinutes(10)) //Checks if time difference since last time is more then 10 min.
+            if (TimeTravelService.Now() - lastCacheTime > TimeSpan.FromMinutes(10)) //Checks if time difference since last time is more then 10 min.
             {
                 //get feed list
                 SyndicationFeed RSSfeed = await _BronFontysCalls.GetNewsFeed();
-                Console.WriteLine(DateTime.Now - lastCashTime);
                 List<BronFontysResponse> feedItems = new List<BronFontysResponse>();
 
                 if (RSSfeed != null)
@@ -85,7 +84,7 @@ namespace Integration_API.LogicLayer
                     }
                 }
 
-                lastCashTime = DateTime.Now;
+                lastCacheTime = TimeTravelService.Now();
                 cachedFeedItems = feedItems;
                 return feedItems;
 
